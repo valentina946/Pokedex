@@ -10,8 +10,8 @@ import RealmSwift
 
 struct APIPokedex: Codable {
     let count: Int
-    // let next: String
-    // let previous: String
+     let next: String?
+     let previous: String?
     let results: [APIPokemon]
     
     func toDomain() -> Pokedex {

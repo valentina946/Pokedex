@@ -12,14 +12,14 @@ struct PokemonDetail: Hashable {
     let types: [String]
     let id: Int
     let name: String
-    let height: Int
-    let weight: Int
+    let height: Double
+    let weight: Double
     let species: String
     var color: String?
     let image: String
     let imagesCarrousel: [String]
     
-    init(abilities: [String], types: [String], id: Int, name: String, height: Int, weight: Int, species: String, color: String? = nil, image: String, imagesCarrousel: [String]) {
+    init(abilities: [String], types: [String], id: Int, name: String, height: Double, weight: Double, species: String, color: String? = nil, image: String, imagesCarrousel: [String]) {
         self.abilities = abilities
         self.types = types
         self.id = id
@@ -37,8 +37,8 @@ struct PokemonDetail: Hashable {
         self.types = apiPokemonDetail.types.map { $0.type.name }
         self.id = apiPokemonDetail.id
         self.name = apiPokemonDetail.name
-        self.height = apiPokemonDetail.height
-        self.weight = apiPokemonDetail.weight
+        self.height = Double(apiPokemonDetail.height / 10)
+        self.weight = Double(apiPokemonDetail.weight / 10)
         self.species = apiPokemonDetail.species.url
         self.image = apiPokemonDetail.sprites.other.home.frontDefault
         

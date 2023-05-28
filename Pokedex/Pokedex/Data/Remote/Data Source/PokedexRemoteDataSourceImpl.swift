@@ -83,11 +83,6 @@ struct PokedexRemoteDataSourceImpl: PokedexRemoteDataSource {
     }
     
     func getAllPokemons(offset: Int, limit: Int) async -> Result<[PokemonDetail], APIError> {
-       // let url = "\(Constants.Data.BASE_URL)"
-//        let params: Parameters = [
-//            "limit": limit,
-//            "offset": offset
-//        ]
         let makeGetRequest = await makeGetRequest(url: Constants.Data.currentURL, parameters: nil)
         switch makeGetRequest {
         case .success(let data):

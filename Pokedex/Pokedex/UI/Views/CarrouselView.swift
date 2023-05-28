@@ -40,14 +40,21 @@ struct CardView: View {
         
         AsyncImage(url: URL(string: pokemonImage)) { image in
             if let image = image.image {
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(maxWidth: 200, maxHeight: 200)
+                ZStack(alignment: .topTrailing) {
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxWidth: 200, maxHeight: 200)
+                        ShareLink(item: pokemonImage) {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundColor(.black)
+                        }
+                    
+                }
             } else if image.error != nil {
                 Image(systemName: "photo.fill")
                     .padding(.trailing, 30)
-               
+                
             } else {
                 ProgressView()
                     .font(.largeTitle)

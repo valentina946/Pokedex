@@ -13,5 +13,6 @@ public struct Constants {
         // MARK: - Textfield constants
         
         public static var BASE_URL = "https://pokeapi.co/api/v2/pokemon/"
+        public static var currentURL = "\(BASE_URL)?limit=20&offset=0"
     }
 }

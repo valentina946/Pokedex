@@ -14,14 +14,14 @@ final class DAOPokemonDetail: Object {
     @Persisted var name: String
     @Persisted var ability: RealmSwift.List<String>
     @Persisted var types: RealmSwift.List<String>
-    @Persisted var height: Int
-    @Persisted var weight: Int
+    @Persisted var height: Double
+    @Persisted var weight: Double
     @Persisted var species: String
     @Persisted var color: String?
     @Persisted var image: String
     @Persisted var imagesCarrousel: RealmSwift.List<String>
     
-    convenience init(id: Int, name: String, ability: [String], types: [String], height: Int, weight: Int, species: String, color: String?, image: String, imagesCarrousel: [String]) {
+    convenience init(id: Int, name: String, ability: [String], types: [String], height: Double, weight: Double, species: String, color: String?, image: String, imagesCarrousel: [String]) {
         self.init()
         self.id = id
         self.name = name
@@ -39,7 +39,8 @@ final class DAOPokemonDetail: Object {
 
 extension DAOPokemonDetail: DataRepresentable {
     
-    func toData() -> DBPokemonDetails { return DBPokemonDetails(id: self.id, abilities: self.ability.map {$0}, types: self.types.map {$0}, name: self.name, height: self.height, weight: self.weight, species: species, color: color, image: image, imagesCarrousel: self.imagesCarrousel.map {$0})
+    func toData() -> DBPokemonDetails {
+        return DBPokemonDetails(id: self.id, abilities: self.ability.map {$0}, types: self.types.map {$0}, name: self.name, height: self.height, weight: self.weight, species: species, color: color, image: image, imagesCarrousel: self.imagesCarrousel.map {$0})
         
     }
 }

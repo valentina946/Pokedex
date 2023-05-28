@@ -13,14 +13,14 @@ class DBPokemonDetails {
     var abilities: [String]
     var types: [String]
     var name: String
-    var height: Int
-    var weight: Int
+    var height: Double
+    var weight: Double
     var species: String
     var color: String?
     var image: String
     var imagesCarrousel: [String]
     
-    init(id: Int, abilities: [String], types: [String], name: String, height: Int, weight: Int, species: String, color: String?, image: String, imagesCarrousel: [String]) {
+    init(id: Int, abilities: [String], types: [String], name: String, height: Double, weight: Double, species: String, color: String?, image: String, imagesCarrousel: [String]) {
         self.id = id
         self.abilities = abilities
         self.types = types

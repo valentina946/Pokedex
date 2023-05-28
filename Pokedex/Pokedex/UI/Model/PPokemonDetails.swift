@@ -13,8 +13,8 @@ public struct PPokemonDetails: Hashable, Identifiable {
     let ability: [String]
     let types: [String]
     let name: String
-    let heigth: Int
-    let weight: Int
+    let heigth: Double
+    let weight: Double
     let species: String
     let color: String
     let image: String

@@ -9,6 +9,6 @@ import Foundation
 
 protocol PokedexRemoteDataSource {
 
-    func getAllPokemons(offset: Int, limit: Int) async -> Result<[PokemonDetail], APIError>
+    func getAllPokemons(isNextPress: Bool?) async -> Result<[PokemonDetail], APIError>
 
 }

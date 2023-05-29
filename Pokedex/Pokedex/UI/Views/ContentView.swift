@@ -7,10 +7,13 @@
 
 import SwiftUI
 import Factory
+import AlertToast
 
 struct ContentView: View {
     
     @InjectedObject(\.pokedexViewModel) var pokedexViewModel
+    @InjectedObject(\.pokemonFavouriteViewModel) var pokemonFavouriteViewModel
+    @State var boolean = false
     var items: [GridItem] {
         Array(repeating: .init(.adaptive(minimum: 200)), count: 2)
     }
@@ -22,54 +25,71 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                VStack {
-                    let pokemonsDetail = pokedexViewModel.pokemonNamesState.pokedex
-                    ScrollView {
-                        LazyVGrid(
-                            columns: columns,
-                            alignment: .center,
-                            spacing: 16,
-                            pinnedViews: [.sectionHeaders, .sectionFooters]
-                        ) {
-                            ForEach(pokemonsDetail ?? [], id: \.self) { pokemon in
-                                NavigationLink {
-                                    PokemonDetailView(name: pokemon.name, color: pokemon.color, weight: pokemon.weight, height: pokemon.heigth, abilities: pokemon.ability, types: pokemon.types, image: pokemon.image, pokemonImages: pokemon.imagesCarrousel)
-                                } label: {
-                                    PokemonCard(name: pokemon.name, types: pokemon.types, image: pokemon.image, color: pokemon.color)
+                if pokedexViewModel.pokemonNamesState.status != .success {
+                    Text("hola") 
+                } else {
+                    VStack {
+                        let pokemonsDetail = pokedexViewModel.pokemonNamesState.pokedex
+                        ScrollView {
+                            LazyVGrid(
+                                columns: columns,
+                                alignment: .center,
+                                spacing: 16,
+                                pinnedViews: [.sectionHeaders, .sectionFooters]
+                            ) {
+                                ForEach(pokemonsDetail ?? [], id: \.self) { pokemon in
+                                    NavigationLink {
+                                        PokemonDetailView(id: pokemon.id, name: pokemon.name, color: pokemon.color, weight: pokemon.weight, height: pokemon.heigth, abilities: pokemon.ability, types: pokemon.types, image: pokemon.image, pokemonImages: pokemon.imagesCarrousel)
+                                            .environmentObject(pokemonFavouriteViewModel)
+                                    } label: {
+                                        PokemonCard(name: pokemon.name, types: pokemon.types, image: pokemon.image, color: pokemon.color)
+                                    }
                                 }
                             }
                         }
+                        
                     }
-                    
-                }//.padding(.bottom, 50)
-                HStack {
-                    if pokedexViewModel.offset != 0 {
+                    HStack {
                         Button {
-                        Task {
-                            pokedexViewModel.offset  = pokedexViewModel.offset - 10
-                            await pokedexViewModel.getAllPokemon()
+                            Task {
+                                await pokedexViewModel.getAllPokemon(isNextPress: false)
+                            }
+                        } label: {
+                            Image(systemName: "arrowshape.backward.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height:  50)
                         }
-                    } label: {
-                        Image(systemName: "arrowshape.backward.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height:  50)
-                    }
+                        
+                        NavigationLink {
+                            FavouritePokemonsView()
+                                .environmentObject(pokemonFavouriteViewModel)
+                        } label: {
+                            Text("View favourite pokemons")
+                        }
+                        
+                        Button {
+                            Task {
+                                await pokedexViewModel.getAllPokemon(isNextPress: true)
+                            }
+                        } label: {
+                            Image(systemName: "arrowshape.forward.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height:  50)
+                        }
+                        
+                    }  .padding(.horizontal, 20)
                 }
-                    Spacer()
-                    Button {
-                        Task {
-                            await pokedexViewModel.getAllPokemon()
-                        }
-                    } label: {
-                        Image(systemName: "arrowshape.forward.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height:  50)
-                    }
-                  
-                }  .padding(.horizontal, 20)
             }
+//            .onChange(of: pokedexViewModel.pokemonNamesState.status, perform: { newValue in
+//                if newValue == .noContentError {
+//                    self.boolean.toggle()
+//                }
+//            })
+//            .toast(isPresenting: $boolean) {
+//                AlertToast(displayMode: .hud, type: .regular, title: "Connection Error")
+//            }
         }
     }
     

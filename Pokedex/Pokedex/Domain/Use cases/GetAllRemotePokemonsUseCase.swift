@@ -14,8 +14,8 @@ public class GetAllRemotePokemonsUseCase {
         self.pokedexRepository = pokedexRepository
     }
     
-    func execute(offset: Int, limit: Int) async -> Result<[PokemonDetail], DomainError> {
-        return await pokedexRepository.getAllRemotePokemons(offset: offset, limit: limit)
+    func execute(isNextPress: Bool) async -> Result<[PokemonDetail], DomainError> {
+        return await pokedexRepository.getAllRemotePokemons(isNextPressed: isNextPress)
         
     }
 }

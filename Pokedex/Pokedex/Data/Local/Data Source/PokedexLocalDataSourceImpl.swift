@@ -18,6 +18,14 @@ struct PokedexLocalDataSourceImpl: PokedexLocalDataSource {
 
     }
     
+    func getFavouritePokemonsFromDB() async -> Result<[DBPokemonFavourite], DBError> {
+        return dataManager.queryAllWithoutPublisher(DBPokemonFavourite.self, predicate: nil, sortDescriptor: nil)
+    }
+    
+    func saveFavouritePokemonToDB(favouritePokemon: DBPokemonFavourite) async -> Result<Void, DBError> {
+        return await dataManager.save(object: favouritePokemon)
+    }
+    
     func updatePokemonsDB(pokemons: [DBPokemonDetails]) async -> Result<Void, DBError> {
         let delete = await dataManager.deleteAll(DBPokemonDetails.self)
             switch delete {

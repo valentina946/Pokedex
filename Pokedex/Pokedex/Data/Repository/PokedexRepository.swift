@@ -10,8 +10,9 @@ import Combine
 
 protocol PokedexRepository {
     
-    func getAllRemotePokemons(offset: Int, limit: Int) async -> Result<[PokemonDetail], DomainError>
+    func getAllRemotePokemons(isNextPressed: Bool?) async -> Result<[PokemonDetail], DomainError>
     func getAllLocalPokemons() -> AnyPublisher<[PokemonDetail], DomainError>
     func updateLocalPokemonsFromAPI(pokedex: [PokemonDetail]) async -> Result<Void, DomainError>
-
+    func getAllLocalFavouritePokemons() async -> Result<[PokemonFavourite], DomainError>
+    func saveFavouritePokemon(favouritePokemon: PokemonFavourite) async -> Result<Void, DomainError> 
 }

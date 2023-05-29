@@ -14,5 +14,7 @@ public struct Constants {
         
         public static var BASE_URL = "https://pokeapi.co/api/v2/pokemon/"
         public static var currentURL = "\(BASE_URL)?limit=20&offset=0"
+        public static var nextURL = ""
+        public static var previousURL = ""
     }
 }

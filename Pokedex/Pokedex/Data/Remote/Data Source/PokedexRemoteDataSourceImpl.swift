@@ -57,7 +57,6 @@ struct PokedexRemoteDataSourceImpl: PokedexRemoteDataSource {
             switch makeGetRequest {
             case .success(let data):
                 let decoder = JSONDecoder()
-            //    decoder.keyDecodingStrategy = .convertFromSnakeCase
                 do {
                     
                     let pokemon = try decoder.decode(APIPokemonDetail.self, from: data)
@@ -82,15 +81,30 @@ struct PokedexRemoteDataSourceImpl: PokedexRemoteDataSource {
         return .success(apiPokex)
     }
     
-    func getAllPokemons(offset: Int, limit: Int) async -> Result<[PokemonDetail], APIError> {
-        let makeGetRequest = await makeGetRequest(url: Constants.Data.currentURL, parameters: nil)
+    func getAllPokemons(isNextPress: Bool?) async -> Result<[PokemonDetail], APIError> {
+        var url: String
+        if let isNextPress = isNextPress {
+            if isNextPress {
+                url = Constants.Data.nextURL
+            }
+            else {
+                url = Constants.Data.previousURL
+            }
+        } else {
+            url = Constants.Data.currentURL
+        }
+        
+        let makeGetRequest = await makeGetRequest(url: url, parameters: nil)
         switch makeGetRequest {
         case .success(let data):
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             do {
                 let pokemon = try decoder.decode(APIPokedex.self, from: data)
-                Constants.Data.currentURL = pokemon.next ?? ""
+                
+                
+                Constants.Data.nextURL = pokemon.next ?? ""
+                Constants.Data.previousURL = pokemon.previous ?? ""
                 let fetchPokemonDetails = await fetchPokemonsDetails(pokedex: pokemon)
                 switch fetchPokemonDetails {
                 case .success(let success):

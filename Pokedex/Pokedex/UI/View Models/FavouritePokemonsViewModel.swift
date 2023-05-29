@@ -37,7 +37,7 @@ class FavouritePokemonsViewModel: ObservableObject {
         }
     }
     
-    func saveFavouritePokemon(pokemon: PokemonFavourite) async {
+    func saveFavouritePokemon(pokemon: FavouritePokemon) async {
         let saveFavouritePokemonUseCase = await self.saveFavouritePokemonUseCase.execute(pokemon: pokemon)
         switch saveFavouritePokemonUseCase {
         case .success:
@@ -50,4 +50,5 @@ class FavouritePokemonsViewModel: ObservableObject {
             }
         }
     }
+    
 }

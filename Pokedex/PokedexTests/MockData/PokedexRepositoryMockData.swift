@@ -60,7 +60,7 @@ struct PokedexRepositoryMockData: PokedexRepository {
         }
     }
     
-    func getAllLocalFavouritePokemons() async -> Result<[PokemonFavourite], DomainError> {
+    func getAllLocalFavouritePokemons() async -> Result<[FavouritePokemon], DomainError> {
         switch testCase {
         case .success:
             return .success(MockDataTest.mockPokemonsFavourite)
@@ -73,7 +73,7 @@ struct PokedexRepositoryMockData: PokedexRepository {
         }
     }
     
-    func saveFavouritePokemon(favouritePokemon: PokemonFavourite) async -> Result<Void, DomainError> {
+    func saveFavouritePokemon(favouritePokemon: FavouritePokemon) async -> Result<Void, DomainError> {
         switch testCase {
         case .success:
             return .success(MockDataTest.mockPokemonsFavourite.append(favouritePokemon))

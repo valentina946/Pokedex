@@ -8,13 +8,14 @@
 import Foundation
 
 public class SaveFavouritePokemonUseCase {
+    
     let pokedexRepository: PokedexRepository
     
     init(pokedexRepository: PokedexRepository) {
         self.pokedexRepository = pokedexRepository
     }
     
-    func execute(pokemon: PokemonFavourite) async -> Result<Void, DomainError> {
+    func execute(pokemon: FavouritePokemon) async -> Result<Void, DomainError> {
         return await pokedexRepository.saveFavouritePokemon(favouritePokemon: pokemon)
     }
 }

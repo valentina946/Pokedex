@@ -8,6 +8,7 @@
 import Foundation
 
 public struct Pokedex {
+    
     let count: Int
     let namesPokemon: [Pokemon]
     

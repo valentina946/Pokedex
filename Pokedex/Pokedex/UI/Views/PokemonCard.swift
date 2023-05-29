@@ -54,10 +54,7 @@ struct PokemonCard: View {
         }
         .padding(.top, 20)
         .padding(.bottom, 10)
-        //.padding(.leading, 20)
         .background(RoundedRectangle(cornerRadius: 30).fill(Color.chooseColor(name: color)))
-        
-        
     }
 }
 

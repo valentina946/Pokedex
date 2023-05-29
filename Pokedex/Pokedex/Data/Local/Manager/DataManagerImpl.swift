@@ -54,15 +54,15 @@ extension DataManagerImpl: DataManager {
     }
     
     func queryAllWithoutPublisher<T>(_ model: T.Type, predicate: NSPredicate?, sortDescriptor: NSSortDescriptor?) -> Result<[T], DBError> where T : DAORepresentable, T == T.DAOType.DataType {
-            let realm = try! Realm(configuration: configuration)
-            realm.refresh()
-            var result = realm.objects(model.DAOType)
-            do {
-                return .success(Array( try result.map { try $0.toData() }))
-            }
-            catch(let error) {
-                return .failure(DBError(error: error))
-            }
+        let realm = try! Realm(configuration: configuration)
+        realm.refresh()
+        var result = realm.objects(model.DAOType)
+        do {
+            return .success(Array( try result.map { try $0.toData() }))
+        }
+        catch(let error) {
+            return .failure(DBError(error: error))
+        }
     }
     
     

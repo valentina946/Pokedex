@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct FavouritePokemonsView: View {
-    @EnvironmentObject var pokemonFavouriteViewModel: FavouritePokemonsViewModel
-  
+    
+    @EnvironmentObject var favouritePokemonViewModel: FavouritePokemonsViewModel
+    
     var body: some View {
         VStack {
-            switch pokemonFavouriteViewModel.getFavouritesPokemonStatus.status {
+            switch favouritePokemonViewModel.getFavouritesPokemonStatus.status {
             case .initial, .loading:
                 VStack {
                     Spacer()
@@ -23,10 +24,10 @@ struct FavouritePokemonsView: View {
                     Spacer()
                 }
             case .success, .outdatedContentError:
-                if pokemonFavouriteViewModel.getFavouritesPokemonStatus.pokedex?.count != 0 {
+                if favouritePokemonViewModel.getFavouritesPokemonStatus.pokedex?.count != 0 {
                     VStack {
                         ScrollView {
-                            ForEach(pokemonFavouriteViewModel.getFavouritesPokemonStatus.pokedex ?? [], id: \.id) { favouritePokemon in
+                            ForEach(favouritePokemonViewModel.getFavouritesPokemonStatus.pokedex ?? [], id: \.id) { favouritePokemon in
                                 FavouritePokemonCard(name: favouritePokemon.name, image: favouritePokemon.image)
                             }
                         }
@@ -35,13 +36,13 @@ struct FavouritePokemonsView: View {
                     Text("There's no favourite pokemons yet")
                 }
             case .noContentError, .unknownError:
-               Text("error")
+                Text("error")
             }
-                
-      
+            
+            
         } .onAppear {
             Task {
-                await self.pokemonFavouriteViewModel.getAllFavouritePokemons()
+                await self.favouritePokemonViewModel.getAllFavouritePokemons()
             }
         }
     }

@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 extension Color {
+    
     static func chooseColor(name: String) -> Color {
         switch name {
         case "red":
@@ -28,8 +29,8 @@ extension Color {
         default :
             return Color(hex: 0x000000)
         }
-        
     }
+    
 }
 
 extension Color {

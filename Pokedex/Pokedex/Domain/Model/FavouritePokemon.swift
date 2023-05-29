@@ -1,5 +1,5 @@
 //
-//  PokemonFavourite.swift
+//  FavouritePokemon.swift
 //  Pokedex
 //
 //  Created by Valentina Olariaga on 28/5/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PokemonFavourite: Hashable {
+struct FavouritePokemon: Hashable {
     let id: Int
     let name: String
     let image: String

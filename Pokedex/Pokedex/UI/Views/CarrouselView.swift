@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CarrouselView: View {
+    
     @State private var index = 0
     let pokemonImages: [String]
     var body: some View {

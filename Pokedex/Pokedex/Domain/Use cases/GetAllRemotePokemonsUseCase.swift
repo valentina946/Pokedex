@@ -8,6 +8,7 @@
 import Foundation
 
 public class GetAllRemotePokemonsUseCase {
+    
     let pokedexRepository: PokedexRepository
     
     init(pokedexRepository: PokedexRepository) {

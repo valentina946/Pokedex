@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DomainError: Error {
+public enum DomainError: Error, Equatable {
     case noConnectionToServer
     case localDataNotFound
     case localDataNotUpdated

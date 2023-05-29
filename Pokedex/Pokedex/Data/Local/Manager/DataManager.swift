@@ -24,4 +24,5 @@ protocol DataManager {
     func deleteAll<T: DAORepresentable>(_ model: T.Type) async -> Result<Void, DBError> where T == T.DAOType.DataType
     func query<T: DAORepresentable>(_ model: T.Type, predicate: NSPredicate) -> AnyPublisher<T, DBError> where T == T.DAOType.DataType
     func queryAll<T: DAORepresentable>(_ model: T.Type, predicate: NSPredicate?, sortDescriptor: NSSortDescriptor?) -> AnyPublisher<[T], DBError> where T == T.DAOType.DataType
+    func queryAllWithoutPublisher<T>(_ model: T.Type, predicate: NSPredicate?, sortDescriptor: NSSortDescriptor?) -> Result<[T], DBError> where T : DAORepresentable, T == T.DAOType.DataType
 }

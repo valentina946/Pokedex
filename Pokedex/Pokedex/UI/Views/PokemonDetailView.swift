@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Factory
 
 extension PokemonDetailView {
     
@@ -23,7 +24,9 @@ extension PokemonDetailView {
     
     var favouriteButton: some View {
         Button(action: {
-            
+            Task {
+                await pokemonFavouriteViewModel.saveFavouritePokemon(pokemon: PokemonFavourite(id: self.id, name: self.name, image: self.image))
+            }
         }) {
             HStack {
                 Image(systemName: "heart")
@@ -37,6 +40,9 @@ extension PokemonDetailView {
 struct PokemonDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    @EnvironmentObject var pokemonFavouriteViewModel: FavouritePokemonsViewModel
+    
+    let id: Int
     let name: String
     let color: String
     let weight: Double
@@ -108,6 +114,6 @@ struct PokemonDetailView: View {
 
 struct PokemonDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonDetailView(name: "Bulbasaur", color: "green", weight: 0.7, height: 6.9, abilities: ["Overgrow", "Chlorophy"],types: ["Grass", "Poison"], image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/12.png", pokemonImages: ["https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/female/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/female/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/female/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/female/12.png"])
+        PokemonDetailView(id: 5, name: "Bulbasaur", color: "green", weight: 0.7, height: 6.9, abilities: ["Overgrow", "Chlorophy"],types: ["Grass", "Poison"], image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/12.png", pokemonImages: ["https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/female/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/female/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/female/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/12.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/female/12.png"])
     }
 }

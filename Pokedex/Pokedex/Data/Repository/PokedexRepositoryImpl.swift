@@ -12,7 +12,7 @@ import Combine
 import RealmSwift
 
 struct PokedexRepositoryImpl: PokedexRepository {
-  
+    
     @Injected(\.pokedexRemoteDataSource) var pokedexRemoteDataSource: PokedexRemoteDataSource
     @Injected(\.pokedexLocalDataSource) var pokedexLocalDataSource: PokedexLocalDataSource
     
@@ -23,14 +23,30 @@ struct PokedexRepositoryImpl: PokedexRepository {
             .eraseToAnyPublisher()
     }
     
-    func getAllRemotePokemons(offset: Int, limit: Int) async -> Result<[PokemonDetail], DomainError> {
-        return await pokedexRemoteDataSource.getAllPokemons(offset: offset, limit: limit)
+    func getAllLocalFavouritePokemons() async -> Result<[PokemonFavourite], DomainError> {
+        let pokedexLocalDataSource = await pokedexLocalDataSource.getFavouritePokemonsFromDB()
+        switch pokedexLocalDataSource {
+        case .success(let success):
+            return .success(success.map {$0.toDomain()})
+        case .failure(let failure):
+            return .failure(failure.toDomain())
+        }
+        
+    }
+    
+    func saveFavouritePokemon(favouritePokemon: PokemonFavourite) async -> Result<Void, DomainError> {
+        return await pokedexLocalDataSource.saveFavouritePokemonToDB(favouritePokemon: DBPokemonFavourite(pokemon: favouritePokemon))
+            .mapError { $0.toDomain() }
+    }
+    
+    func getAllRemotePokemons(isNextPressed: Bool?) async -> Result<[PokemonDetail], DomainError> {
+        return await pokedexRemoteDataSource.getAllPokemons(isNextPress: isNextPressed)
             .map { $0.map { $0 } }
             .mapError { $0.toDomain() }
     }
     
     func updateLocalPokemonsFromAPI(pokedex: [PokemonDetail]) async -> Result<Void, DomainError> {
-       
+        
         return await pokedexLocalDataSource.updatePokemonsDB(pokemons: pokedex.map { DBPokemonDetails(pokemon: $0) })
             .mapError { $0.toDomain() }
     }

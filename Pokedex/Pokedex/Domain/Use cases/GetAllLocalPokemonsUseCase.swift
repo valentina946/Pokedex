@@ -15,11 +15,11 @@ public class GetAllLocalPokemonsUseCase {
         self.pokedexRepository = pokedexRepository
     }
 
-    func execute(offset: Int, limit: Int) async -> AnyPublisher<[PokemonDetail], DomainError> {
+    func execute(isNextPressed: Bool?) async -> AnyPublisher<[PokemonDetail], DomainError> {
         let localPublisher = pokedexRepository.getAllLocalPokemons()
         let remotePublisher = Future<[PokemonDetail], DomainError> { promise in
             Task {
-                let remotePublisher = await self.pokedexRepository.getAllRemotePokemons(offset: offset, limit: limit)
+                let remotePublisher = await self.pokedexRepository.getAllRemotePokemons(isNextPressed: isNextPressed)
                 switch remotePublisher {
                 case .success(let pokemon):
                     let updateResult = await self.pokedexRepository.updateLocalPokemonsFromAPI(pokedex: pokemon)
@@ -32,6 +32,7 @@ public class GetAllLocalPokemonsUseCase {
             }
         }
             .eraseToAnyPublisher()
+        
         return Publishers.Merge(localPublisher, remotePublisher)
             .eraseToAnyPublisher()
     }

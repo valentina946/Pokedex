@@ -16,37 +16,35 @@ class PokedexViewModel: ObservableObject {
     
     @Injected(\.getAllLocalPokemonsUseCase) var getAllLocalPokemonsUseCase
     
-    var offset = 0
-    var limit : Int = 20
-    
     init() {
         Task {
-            await self.getAllPokemon()
+            await self.getAllPokemon(isNextPress: nil)
         }
     }
     
-    @Published public var pokemonNamesState = PokedexStatus()
+    @Published public var pokemonNamesState = PokedexStatus(status: .initial)
     
-    func getAllPokemon() async {
-
+    func getAllPokemon(isNextPress: Bool?) async {
+     
         Task {
             await MainActor.run {
                 withAnimation {
-                    self.pokemonNamesState.toLoading()
+                    self.pokemonNamesState = PokedexStatus(status: .loading)
                 }
             }
         }
         
-        await getAllLocalPokemonsUseCase.execute(offset: offset, limit: limit)
+        await getAllLocalPokemonsUseCase.execute(isNextPressed: isNextPress)
             .map { $0.map { PPokemonDetails(pokemon: $0) } }
             .receive(on: DispatchQueue.main)
+            
             .sink(
                 receiveCompletion: { completion in
                     if case .failure(let error) = completion {
                         Task {
                             await MainActor.run {
                                 withAnimation(.default.speed(2)) {
-                                    self.pokemonNamesState.updateState(error: error)
+                                    self.pokemonNamesState = PokedexStatus(status: .noContentError, error: error)
                                 }
                             }
                         }
@@ -54,7 +52,7 @@ class PokedexViewModel: ObservableObject {
                         Task {
                             await MainActor.run {
                                 withAnimation(.default.speed(2)) {
-                                    self.pokemonNamesState.updateState(error: .localDataNotFound)
+                                    self.pokemonNamesState = PokedexStatus(status: .outdatedContentError)
                                 }
                             }
                         }
@@ -64,8 +62,7 @@ class PokedexViewModel: ObservableObject {
                     Task {
                         await MainActor.run {
                             withAnimation {
-                                self.pokemonNamesState.updateState(pokedex: values)
-                                self.offset = self.offset + 10
+                                self.pokemonNamesState = PokedexStatus(status: .success, pokedex: values)
                             }
                         }
                     }

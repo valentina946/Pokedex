@@ -11,6 +11,7 @@ import Factory
 extension Container {
     
     var pokedexViewModel: Factory<PokedexViewModel> { self { PokedexViewModel() } }
+    var pokemonFavouriteViewModel: Factory<FavouritePokemonsViewModel> { self { FavouritePokemonsViewModel() } }
     
 }
 
@@ -36,5 +37,6 @@ extension Container {
     
     var getAllLocalPokemonsUseCase: Factory<GetAllLocalPokemonsUseCase> { self {GetAllLocalPokemonsUseCase(pokedexRepository: self.pokedexRepository.callAsFunction()) } }
     var getAllRemotePokemonsUseCase: Factory<GetAllRemotePokemonsUseCase> { self {GetAllRemotePokemonsUseCase(pokedexRepository: self.pokedexRepository.callAsFunction()) } }
-    
+    var getAllLocalFavouritePokemonsUseCase: Factory<GetAllLocalFavouritePokemonsUseCase> { self {GetAllLocalFavouritePokemonsUseCase(pokedexRepository: self.pokedexRepository.callAsFunction()) } }
+    var saveFavouritePokemonUseCase: Factory<SaveFavouritePokemonUseCase> { self {SaveFavouritePokemonUseCase(pokedexRepository: self.pokedexRepository.callAsFunction()) } }
 }

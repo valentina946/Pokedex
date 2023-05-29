@@ -23,7 +23,7 @@ struct PokedexRepositoryImpl: PokedexRepository {
             .eraseToAnyPublisher()
     }
     
-    func getAllLocalFavouritePokemons() async -> Result<[PokemonFavourite], DomainError> {
+    func getAllLocalFavouritePokemons() async -> Result<[FavouritePokemon], DomainError> {
         let pokedexLocalDataSource = await pokedexLocalDataSource.getFavouritePokemonsFromDB()
         switch pokedexLocalDataSource {
         case .success(let success):
@@ -34,8 +34,8 @@ struct PokedexRepositoryImpl: PokedexRepository {
         
     }
     
-    func saveFavouritePokemon(favouritePokemon: PokemonFavourite) async -> Result<Void, DomainError> {
-        return await pokedexLocalDataSource.saveFavouritePokemonToDB(favouritePokemon: DBPokemonFavourite(pokemon: favouritePokemon))
+    func saveFavouritePokemon(favouritePokemon: FavouritePokemon) async -> Result<Void, DomainError> {
+        return await pokedexLocalDataSource.saveFavouritePokemonToDB(favouritePokemon: DBFavouritePokemon(pokemon: favouritePokemon))
             .mapError { $0.toDomain() }
     }
     

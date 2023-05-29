@@ -21,23 +21,23 @@ final class DAOPokemonFavourite: Object {
         self.name = name
         self.image = image
     }
-
+    
 }
 
 extension DAOPokemonFavourite: DataRepresentable {
     
-    func toData() -> DBPokemonFavourite {
-        return DBPokemonFavourite(id: self.id, name: self.name, image: self.image)
+    func toData() -> DBFavouritePokemon {
+        return DBFavouritePokemon(id: self.id, name: self.name, image: self.image)
         
     }
 }
+
+extension DBFavouritePokemon: DAORepresentable {
     
-    extension DBPokemonFavourite: DAORepresentable {
-        
-        func toDAO() -> DAOPokemonFavourite {
-            return DAOPokemonFavourite(id: self.id, name: self.name, image: self.image)
-            
-        }
+    func toDAO() -> DAOPokemonFavourite {
+        return DAOPokemonFavourite(id: self.id, name: self.name, image: self.image)
         
     }
+    
+}
 

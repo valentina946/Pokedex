@@ -13,6 +13,7 @@ protocol PokedexRepository {
     func getAllRemotePokemons(isNextPressed: Bool?) async -> Result<[PokemonDetail], DomainError>
     func getAllLocalPokemons() -> AnyPublisher<[PokemonDetail], DomainError>
     func updateLocalPokemonsFromAPI(pokedex: [PokemonDetail]) async -> Result<Void, DomainError>
-    func getAllLocalFavouritePokemons() async -> Result<[PokemonFavourite], DomainError>
-    func saveFavouritePokemon(favouritePokemon: PokemonFavourite) async -> Result<Void, DomainError> 
+    func getAllLocalFavouritePokemons() async -> Result<[FavouritePokemon], DomainError>
+    func saveFavouritePokemon(favouritePokemon: FavouritePokemon) async -> Result<Void, DomainError>
+    
 }

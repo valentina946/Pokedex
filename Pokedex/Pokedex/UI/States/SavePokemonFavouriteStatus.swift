@@ -8,15 +8,12 @@
 import Foundation
 
 public struct SavePokemonFavouriteStatus {
+    
     private(set) var status: BaseViewModelStatus
     private(set) var error: DomainError?
-    
-    // MARK: - Initialization
-    
+        
     init() { self.status = .initial }
-    
-    // MARK: - Public Methods
-    
+        
     mutating func toLoading() {
         self.status = .loading
         self.error = nil

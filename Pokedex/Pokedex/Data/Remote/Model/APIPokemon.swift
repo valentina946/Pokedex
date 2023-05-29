@@ -8,6 +8,7 @@
 import Foundation
 
 struct APIPokemon: Codable {
+    
     let name: String
     let url: String
     

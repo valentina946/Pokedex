@@ -8,6 +8,7 @@
 import Foundation
 
 struct PokemonDetail: Hashable {
+    
     let abilities: [String]
     let types: [String]
     let id: Int

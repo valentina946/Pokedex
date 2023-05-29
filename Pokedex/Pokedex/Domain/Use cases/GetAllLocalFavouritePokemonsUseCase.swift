@@ -9,13 +9,14 @@ import Foundation
 import Combine
 
 public class GetAllLocalFavouritePokemonsUseCase {
+    
     let pokedexRepository: PokedexRepository
     
     init(pokedexRepository: PokedexRepository) {
         self.pokedexRepository = pokedexRepository
     }
     
-    func execute() async -> Result<[PokemonFavourite], DomainError> {
+    func execute() async -> Result<[FavouritePokemon], DomainError> {
         
         return await pokedexRepository.getAllLocalFavouritePokemons()
       

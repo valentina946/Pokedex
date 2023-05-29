@@ -25,7 +25,7 @@ extension PokemonDetailView {
     var favouriteButton: some View {
         Button(action: {
             Task {
-                await pokemonFavouriteViewModel.saveFavouritePokemon(pokemon: PokemonFavourite(id: self.id, name: self.name, image: self.image))
+                await pokemonFavouriteViewModel.saveFavouritePokemon(pokemon: FavouritePokemon(id: self.id, name: self.name, image: self.image))
             }
         }) {
             HStack {
@@ -38,6 +38,7 @@ extension PokemonDetailView {
 }
 
 struct PokemonDetailView: View {
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @EnvironmentObject var pokemonFavouriteViewModel: FavouritePokemonsViewModel

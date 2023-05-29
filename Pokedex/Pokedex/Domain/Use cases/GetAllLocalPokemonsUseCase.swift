@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 public class GetAllLocalPokemonsUseCase {
+    
     let pokedexRepository: PokedexRepository
 
     init(pokedexRepository: PokedexRepository) {

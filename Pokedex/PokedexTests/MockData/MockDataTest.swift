@@ -15,8 +15,8 @@ class MockDataTest {
     ]
     
     static var mockPokemonsFavourite = [
-        PokemonFavourite(id: 1, name: "Bulbasaur", image: "image.jpg"),
-        PokemonFavourite(id: 2, name: "Venusaur", image: "image.jpg")
+        FavouritePokemon(id: 1, name: "Bulbasaur", image: "image.jpg"),
+        FavouritePokemon(id: 2, name: "Venusaur", image: "image.jpg")
     ]
     
 }

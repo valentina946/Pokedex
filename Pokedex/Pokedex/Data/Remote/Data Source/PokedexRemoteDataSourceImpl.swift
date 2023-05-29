@@ -46,7 +46,7 @@ struct PokedexRemoteDataSourceImpl: PokedexRemoteDataSource {
             }
             
         case .failure(let error):
-            return .failure(error as? APIError ?? APIError.unknown(description: error.localizedDescription))
+            return .failure(error as APIError)
         }
     }
     
@@ -68,7 +68,7 @@ struct PokedexRemoteDataSourceImpl: PokedexRemoteDataSource {
                         apiPokex.append(pokemonDetail)
                         
                     case .failure(let failure):
-                        return .failure(failure as? APIError ?? APIError.unknown(description: failure.localizedDescription))
+                        return .failure(failure as APIError)
                     }
                     
                 } catch(let error) {
@@ -101,8 +101,6 @@ struct PokedexRemoteDataSourceImpl: PokedexRemoteDataSource {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             do {
                 let pokemon = try decoder.decode(APIPokedex.self, from: data)
-                
-                
                 Constants.Data.nextURL = pokemon.next ?? ""
                 Constants.Data.previousURL = pokemon.previous ?? ""
                 let fetchPokemonDetails = await fetchPokemonsDetails(pokedex: pokemon)
@@ -110,7 +108,7 @@ struct PokedexRemoteDataSourceImpl: PokedexRemoteDataSource {
                 case .success(let success):
                     return .success(success)
                 case .failure(let failure):
-                    return .failure(failure as? APIError ?? APIError.unknown(description: failure.localizedDescription))
+                    return .failure(failure as APIError)
                 }
                 
             } catch(let error) {

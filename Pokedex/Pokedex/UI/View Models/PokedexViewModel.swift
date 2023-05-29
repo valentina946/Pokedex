@@ -16,16 +16,16 @@ class PokedexViewModel: ObservableObject {
     
     @Injected(\.getAllLocalPokemonsUseCase) var getAllLocalPokemonsUseCase
     
+    @Published public var pokemonNamesState = PokedexStatus(status: .initial)
+    
     init() {
         Task {
             await self.getAllPokemon(isNextPress: nil)
         }
     }
     
-    @Published public var pokemonNamesState = PokedexStatus(status: .initial)
-    
     func getAllPokemon(isNextPress: Bool?) async {
-     
+        
         Task {
             await MainActor.run {
                 withAnimation {
@@ -37,7 +37,7 @@ class PokedexViewModel: ObservableObject {
         await getAllLocalPokemonsUseCase.execute(isNextPressed: isNextPress)
             .map { $0.map { PPokemonDetails(pokemon: $0) } }
             .receive(on: DispatchQueue.main)
-            
+        
             .sink(
                 receiveCompletion: { completion in
                     if case .failure(let error) = completion {
@@ -66,7 +66,7 @@ class PokedexViewModel: ObservableObject {
                             }
                         }
                     }
-            })
+                })
             .store(in: &cancellable)
     }
     

@@ -8,6 +8,7 @@
 import Foundation
 
 struct APIPokemonDetail: Codable {
+    
     let abilities: [APIAbility]
     let types: [APIType]
     let id: Int
@@ -17,13 +18,6 @@ struct APIPokemonDetail: Codable {
     let species: APISpecies
     let sprites: APISprites
     
-    //    public func toDomain() -> PokemonDetail {
-    //        let abilities = abilities.map { $0.ability.name }
-    ////        let types = types.map { $0.type.name }
-    //        let species = species.url
-    ////        let sprites = sprites.other.home.front_default
-    //        return PokemonDetail(abilities: abilities, id: id, name: name, height: height, weight: weight, species: species)
-    //    }
 }
 
 struct APIType: Codable {
